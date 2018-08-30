@@ -5,15 +5,15 @@ namespace ClockProject
     public class Clock
     {
         private Counter _sec;
-        private int _min;
-        private int _hour;
+        private Counter _min;
+        private Counter _hour;
 
         public string CurrentTime
         {
             get
             {
                 string output = String
-                    .Concat(_hour.ToString(), ":", _min.ToString(), ":", _sec.Value.ToString());
+                    .Concat(_hour.Value.ToString(), ":", _min.Value.ToString(), ":", _sec.Value.ToString());
 
                 return output;
             }
@@ -21,9 +21,9 @@ namespace ClockProject
 
         public Clock()
         {
-            _sec = new Counter("min");
-            _min = 0;
-            _hour = 0;
+            _sec = new Counter("sec");
+            _min = new Counter("min");
+            _hour = new Counter("hour");
         }
 
         public void Tick()
@@ -32,12 +32,12 @@ namespace ClockProject
             if (_sec.Value == 60)
             {
                 _sec.Reset();
-                _min++;
+                _min.Increment();
 
-                if (_min == 60)
+                if (_min.Value == 60)
                 {
-                    _min = 0;
-                    _hour++;
+                    _min.Reset();
+                    _hour.Increment();
                 }
             }
         }
@@ -45,8 +45,9 @@ namespace ClockProject
         public void Reset()
         {
             _sec.Reset();
-            _min = 0;
-            _hour = 0;
+            _min.Reset();
+            _hour.Reset();
         }
     }
 }
+
